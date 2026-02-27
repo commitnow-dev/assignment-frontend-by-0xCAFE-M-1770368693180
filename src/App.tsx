@@ -1,4 +1,5 @@
 import { Route, Routes } from 'react-router-dom';
+import WizardLayout from '@/layout/WizardLayout';
 import HomePage from '@/pages/HomePage';
 import BasicInfoPage from '@/pages/BasicInfoPage';
 import TeamSetupPage from '@/pages/TeamSetupPage';
@@ -10,7 +11,7 @@ export default function App() {
   return (
     <Routes>
       <Route path="/" element={<HomePage />} />
-      <Route path="wizard">
+      <Route path="wizard" element={<WizardLayout />}>
         <Route path="step-1" element={<BasicInfoPage />} />
         <Route path="step-2" element={<TeamSetupPage />} />
         <Route path="step-3" element={<TagSelectPage />} />
