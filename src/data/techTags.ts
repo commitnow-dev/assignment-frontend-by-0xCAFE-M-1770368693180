@@ -1,4 +1,4 @@
-import type { TechTag } from '../types';
+import type { TechTag } from '@/types';
 
 export const techTags: TechTag[] = [
   { id: 'react', name: 'React', category: 'frontend' },

@@ -1,4 +1,4 @@
-import type { User } from '../types';
+import type { User } from "@/types";
 
 export const users: User[] = [
   { id: 'u_001', name: '김개발', email: 'kim@example.com', avatarUrl: '/avatars/kim.png' },

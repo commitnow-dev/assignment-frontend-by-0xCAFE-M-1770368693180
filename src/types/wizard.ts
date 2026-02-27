@@ -1,4 +1,4 @@
-import type { ProjectDraft } from './project';
+import type { ProjectDraft } from '@/types';
 
 export interface StepValidation {
   step1: boolean;

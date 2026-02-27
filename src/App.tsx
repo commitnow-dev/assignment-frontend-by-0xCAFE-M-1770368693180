@@ -1,10 +1,10 @@
 import { Route, Routes } from 'react-router-dom';
-import HomePage from './pages/HomePage';
-import BasicInfoPage from './pages/BasicInfoPage';
-import TeamSetupPage from './pages/TeamSetupPage';
-import TagSelectPage from './pages/TagSelectPage';
-import ScheduleSetupPage from './pages/ScheduleSetupPage';
-import SubmitPage from './pages/SubmitPage';
+import HomePage from '@/pages/HomePage';
+import BasicInfoPage from '@/pages/BasicInfoPage';
+import TeamSetupPage from '@/pages/TeamSetupPage';
+import TagSelectPage from '@/pages/TagSelectPage';
+import ScheduleSetupPage from '@/pages/ScheduleSetupPage';
+import SubmitPage from '@/pages/SubmitPage';
 
 export default function App() {
   return (

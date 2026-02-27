@@ -1,4 +1,4 @@
-import type { TeamMember } from './user';
+import type { TeamMember } from '@/types';
 
 export interface TechTag {
   id: string;
