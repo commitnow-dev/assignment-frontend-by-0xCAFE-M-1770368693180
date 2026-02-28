@@ -6,9 +6,15 @@ export default function BasicInfoPage() {
   return (
     <div className="flex w-full items-center justify-center">
       <div className="flex flex-col w-full gap-10">
-        <Input label="프로젝트 이름" placeholder="프로젝트 이름을 입력해주세요" maxLength={50} />
+        <div className="flex flex-col gap-1">
+          <label className="font-bold px-1">프로젝트 이름</label>
+          <Input placeholder="프로젝트 이름을 입력해주세요" maxLength={50} />
+        </div>
 
-        <TextArea label="프로젝트 설명" placeholder="프로젝트 설명을 입력해주세요" maxLength={500} />
+        <div className="flex flex-col gap-1">
+          <label className="font-bold px-1">프로젝트 설명</label>
+          <TextArea placeholder="프로젝트 설명을 입력해주세요" maxLength={500} />
+        </div>
 
         <div className="flex flex-col w-full gap-1">
           <label className="font-bold px-1">공개 여부</label>
