@@ -1,5 +1,6 @@
-import type { MemberRole, User } from '@/types';
 import { IoIosClose } from 'react-icons/io';
+import type { MemberRole, User } from '@/types';
+import { ROLES } from '@/constants/roles';
 
 export interface UserItemProps {
   user: User;
@@ -7,9 +8,6 @@ export interface UserItemProps {
   onRoleChange: (role: MemberRole) => void;
   onRemove: () => void;
 }
-
-// TODO: 상수로 분리
-const ROLES: MemberRole[] = ['owner', 'admin', 'member'];
 
 const UserItem = ({ user, role, onRoleChange, onRemove }: UserItemProps) => {
   return (
