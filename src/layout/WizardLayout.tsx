@@ -29,13 +29,15 @@ export default function WizardLayout() {
   };
 
   return (
-    <div className="min-h-screen max-w-lg flex flex-col items-center mx-auto">
-      <div className="flex w-full justify-center py-10 bg-indigo-100">
+    <div className="h-screen max-w-lg flex flex-col mx-auto">
+      <div className="flex w-full justify-center py-10 bg-indigo-50">
         <p>스텝 인디케이터</p>
       </div>
 
-      <div className="flex flex-col w-full flex-1 justify-between px-5 sm:px-16 pt-15 pb-10">
-        <Outlet />
+      <div className="flex flex-col w-full flex-1 px-5 sm:px-16 pt-12 pb-10 overflow-hidden">
+        <div className="flex-1 overflow-y-auto [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none] mb-8">
+          <Outlet />
+        </div>
         <div className="flex w-full justify-between gap-5">
           <Button size="lg" isActive={currentStep > 1} onClick={handlePrev}>
             이전

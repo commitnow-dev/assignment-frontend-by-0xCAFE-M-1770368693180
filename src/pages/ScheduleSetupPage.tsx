@@ -1,35 +1,32 @@
-import { useState } from 'react';
 import type { Milestone } from '@/types';
+import { NOTICE } from '@/constants';
 import Input from '@/components/Input';
 import MilestoneItem from '@/components/MilestoneItem';
-import { NOTICE } from '@/constants';
+import { useWizardStore } from '@/store/useWizardStore';
 
 export default function ScheduleSetupPage() {
-  const [startDate, setStartDate] = useState('');
-  const [endDate, setEndDate] = useState('');
-  const [milestones, setMilestones] = useState<Milestone[]>([]);
-
+  const { draft, updateDraft } = useWizardStore();
+  const { startDate, endDate, milestones } = draft;
+  
   const handleAddMilestone = () => {
-    setMilestones((prev) => [...prev, { id: crypto.randomUUID(), name: '', targetDate: '' }]);
+    updateDraft({ milestones: [...milestones, { id: crypto.randomUUID(), name: '', targetDate: '' }] });
   };
 
   const handleMilestoneChange = (id: string, field: keyof Omit<Milestone, 'id'>, value: string) => {
-    setMilestones((prev) => prev.map((m) => (m.id === id ? { ...m, [field]: value } : m)));
+    updateDraft({ milestones: milestones.map((m) => (m.id === id ? { ...m, [field]: value } : m)) });
   };
 
   const handleRemoveMilestone = (id: string) => {
-    setMilestones((prev) => prev.filter((m) => m.id !== id));
+    updateDraft({ milestones: milestones.filter((m) => m.id !== id) });
   };
 
   const resetOutOfRangeMilestones = (newStart: string, newEnd: string) => {
-    setMilestones((prev) =>
-      prev.map((m) =>
+    updateDraft({
+      milestones: milestones.map((m) =>
         m.targetDate && (m.targetDate < newStart || m.targetDate > newEnd) ? { ...m, targetDate: '' } : m,
       ),
-    );
+    });
   };
-
-  console.log(milestones);
 
   return (
     <div className="flex w-full flex-col gap-7">
@@ -42,7 +39,7 @@ export default function ScheduleSetupPage() {
             value={startDate}
             max={endDate || undefined}
             onChange={(e) => {
-              setStartDate(e.target.value);
+              updateDraft({ startDate: e.target.value });
               resetOutOfRangeMilestones(e.target.value, endDate);
             }}
           />
@@ -52,7 +49,7 @@ export default function ScheduleSetupPage() {
             value={endDate}
             min={startDate || undefined}
             onChange={(e) => {
-              setEndDate(e.target.value);
+              updateDraft({ endDate: e.target.value });
               resetOutOfRangeMilestones(startDate, e.target.value);
             }}
           />
