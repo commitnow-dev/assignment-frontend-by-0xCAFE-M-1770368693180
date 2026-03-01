@@ -1,5 +1,7 @@
 import type { ProjectDraft } from '@/types';
 
+export type WizardStep = 1 | 2 | 3 | 4 | 5;
+
 export interface StepValidation {
   step1: boolean;
   step2: boolean;
@@ -8,7 +10,7 @@ export interface StepValidation {
 }
 
 export interface WizardState {
-  currentStep: 1 | 2 | 3 | 4 | 5;
+  currentStep: WizardStep;
   draft: ProjectDraft;
   validation: StepValidation;
   lastSavedAt?: string;
