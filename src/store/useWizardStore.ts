@@ -1,7 +1,7 @@
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
 import type { ProjectDraft, WizardStep } from '@/types';
-import { PROJECT } from '@/constants';
+import { validateBasicInfo, validateTeamMember, validateTechStack, validateDate } from '@/utils/validate';
 
 interface WizardStore {
   draft: ProjectDraft;
@@ -30,8 +30,7 @@ export const useWizardStore = create<WizardStore>()(
       draft: initialDraft,
       currentStep: 1,
 
-      updateDraft: (partial) =>
-        set((state) => ({ draft: { ...state.draft, ...partial } })),
+      updateDraft: (partial) => set((state) => ({ draft: { ...state.draft, ...partial } })),
 
       setStep: (step) => set({ currentStep: step }),
 
@@ -39,21 +38,13 @@ export const useWizardStore = create<WizardStore>()(
         const { draft } = get();
         switch (step) {
           case 1:
-            return (
-              draft.name.length >= PROJECT.NAME.MIN &&
-              draft.name.length <= PROJECT.NAME.MAX &&
-              (!draft.description || draft.description.length <= PROJECT.DESCRIPTION.MAX)
-            );
+            return validateBasicInfo(draft);
           case 2:
-            return draft.teamMembers.length > 0;
+            return validateTeamMember(draft);
           case 3:
-            return draft.techStackIds.length > 0;
+            return validateTechStack(draft);
           case 4:
-            return (
-              !!draft.startDate &&
-              !!draft.endDate &&
-              draft.milestones.every((m) => !!m.name && !!m.targetDate)
-            );
+            return validateDate(draft);
           default:
             return true;
         }

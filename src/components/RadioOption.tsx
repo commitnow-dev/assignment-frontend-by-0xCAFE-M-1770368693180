@@ -24,8 +24,8 @@ const RadioOption = ({ name, value, checked, onChange, children }: RadioOptionPr
         htmlFor={value}
         className="peer-checked:border-indigo-500 absolute top-0 h-full w-full cursor-pointer rounded-full border border-gray-300 transition"
       />
-      <div className="peer-checked:border-transparent peer-checked:bg-indigo-500 peer-checked:ring-2 absolute left-4 h-5 w-5 rounded-full border-2 border-gray-300 bg-gray-200 ring-indigo-600 ring-offset-2 transition" />
-      <span>{children}</span>
+      <div className="peer-checked:border-transparent peer-checked:bg-indigo-500 peer-checked:ring-2 pointer-events-none absolute left-4 h-5 w-5 rounded-full border-2 border-gray-300 bg-gray-200 ring-indigo-600 ring-offset-2 transition" />
+      <span className="pointer-events-none">{children}</span>
     </div>
   );
 };
