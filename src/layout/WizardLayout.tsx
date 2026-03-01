@@ -34,8 +34,8 @@ export default function WizardLayout() {
         <p>스텝 인디케이터</p>
       </div>
 
-      <div className="flex flex-col w-full flex-1 px-5 sm:px-16 pt-12 pb-10 overflow-hidden">
-        <div className="flex-1 overflow-y-auto [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none] mb-8">
+      <div className="flex flex-col w-full flex-1 px-5 sm:px-16 pt-12 pb-10  overflow-hidden">
+        <div className="flex-1 overflow-y-auto px-2 [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none] mb-8">
           <Outlet />
         </div>
         <div className="flex w-full justify-between gap-5">

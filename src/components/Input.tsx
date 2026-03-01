@@ -1,3 +1,4 @@
+import clsx from 'clsx';
 import type { ComponentPropsWithoutRef } from 'react';
 
 export interface InputProps extends ComponentPropsWithoutRef<'input'> {
@@ -11,7 +12,10 @@ const Input = ({ label, errorMessage, ...props }: InputProps) => {
       {label && <label className="px-1 text-gray-700">{label}</label>}
       <div className="relative w-full">
         <input
-          className={`w-full border border-gray-300 bg-white rounded-lg px-3 py-2 outline-none transition ${errorMessage ? 'border-red-400 focus:ring-2 focus:ring-red-300' : 'border-gray-300 focus:ring-2 focus:ring-indigo-300'}`}
+          className={clsx(
+            'w-full border border-gray-300 bg-white rounded-lg px-3 py-2 outline-none transition',
+            errorMessage ? 'border-red-400 focus:ring-2 focus:ring-red-300' : 'border-gray-300 focus:ring-2 focus:ring-indigo-300',
+          )}
           {...props}
         />
         {errorMessage && (

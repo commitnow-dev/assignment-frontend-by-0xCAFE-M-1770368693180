@@ -1,6 +1,6 @@
 import { IoIosClose } from 'react-icons/io';
 import type { MemberRole, User } from '@/types';
-import { ROLES } from '@/constants/roles';
+import { ROLES } from '@/constants';
 
 export interface UserItemProps {
   user: User;
