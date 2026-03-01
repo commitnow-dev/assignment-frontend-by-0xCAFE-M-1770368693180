@@ -2,6 +2,7 @@ import { useState } from 'react';
 import type { Milestone } from '@/types';
 import Input from '@/components/Input';
 import MilestoneItem from '@/components/MilestoneItem';
+import { NOTICE } from '@/constants';
 
 export default function ScheduleSetupPage() {
   const [startDate, setStartDate] = useState('');
@@ -28,7 +29,7 @@ export default function ScheduleSetupPage() {
     );
   };
 
-  console.log(milestones)
+  console.log(milestones);
 
   return (
     <div className="flex w-full flex-col gap-7">
@@ -72,7 +73,7 @@ export default function ScheduleSetupPage() {
         </div>
 
         {!(startDate && endDate) ? (
-          <p className="px-1 text-sm text-gray-400">시작일과 종료일을 선택해주세요</p>
+          <p className="px-1 text-sm text-gray-400">{NOTICE.DATE}</p>
         ) : (
           <ul className="flex flex-col gap-2">
             {milestones.map((milestone) => (

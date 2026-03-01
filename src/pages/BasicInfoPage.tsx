@@ -1,3 +1,4 @@
+import { PLACE_HOLDER } from '@/constants';
 import Input from '@/components/Input';
 import TextArea from '@/components/TextArea';
 import RadioOption from '@/components/RadioOption';
@@ -8,12 +9,12 @@ export default function BasicInfoPage() {
       <div className="flex flex-col w-full gap-10">
         <div className="flex flex-col gap-1">
           <label className="font-bold px-1">프로젝트 이름</label>
-          <Input placeholder="프로젝트 이름을 입력해주세요" maxLength={50} />
+          <Input placeholder={PLACE_HOLDER.NAME} maxLength={50} />
         </div>
 
         <div className="flex flex-col gap-1">
           <label className="font-bold px-1">프로젝트 설명</label>
-          <TextArea placeholder="프로젝트 설명을 입력해주세요" maxLength={500} />
+          <TextArea placeholder={PLACE_HOLDER.DESCRIPTION} maxLength={500} />
         </div>
 
         <div className="flex flex-col w-full gap-1">

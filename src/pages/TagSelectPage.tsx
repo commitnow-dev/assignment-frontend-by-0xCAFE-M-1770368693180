@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { techTags } from '@/data/techTags';
-import { POPULAR_TECH_TAGS } from '@/constants/tags';
+import { PLACE_HOLDER, POPULAR_TECH_TAGS } from '@/constants';
 import SearchBox from '@/components/SearchBox';
 import Chip from '@/components/Chip';
 import TagItem from '@/components/TagItem';
@@ -43,7 +43,7 @@ export default function TagSelectPage() {
       <div className="flex flex-col gap-1">
         <label className="font-bold px-1">기술 스택</label>
         <SearchBox
-          placeholder="기술 스택을 검색해주세요"
+          placeholder={PLACE_HOLDER.TECH}
           value={query}
           items={filtered}
           onChange={(e) => setQuery(e.target.value)}

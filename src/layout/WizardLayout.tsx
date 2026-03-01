@@ -1,9 +1,8 @@
 import { Outlet, useLocation, useNavigate } from 'react-router-dom';
 import type { WizardStep } from '@/types';
+import { TOTAL_STEPS } from '@/constants';
 import Button from '@/components/Button';
 import { useWizardStore } from '@/store/useWizardStore';
-
-const TOTAL_STEPS = 5;
 
 export default function WizardLayout() {
   const location = useLocation();

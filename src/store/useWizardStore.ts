@@ -1,6 +1,7 @@
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
 import type { ProjectDraft, WizardStep } from '@/types';
+import { PROJECT } from '@/constants';
 
 interface WizardStore {
   draft: ProjectDraft;
@@ -39,9 +40,9 @@ export const useWizardStore = create<WizardStore>()(
         switch (step) {
           case 1:
             return (
-              draft.name.length >= 3 &&
-              draft.name.length <= 50 &&
-              (!draft.description || draft.description.length <= 500)
+              draft.name.length >= PROJECT.NAME.MIN &&
+              draft.name.length <= PROJECT.NAME.MAX &&
+              (!draft.description || draft.description.length <= PROJECT.DESCRIPTION.MAX)
             );
           case 2:
             return draft.teamMembers.length > 0;

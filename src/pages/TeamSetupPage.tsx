@@ -4,6 +4,7 @@ import { users } from '@/data/users';
 import SearchBox from '@/components/SearchBox';
 import UserItem from '@/components/UserItem';
 import { useDebounce } from '@/hooks/useDebounce';
+import { PLACE_HOLDER } from '@/constants';
 
 export default function TeamSetupPage() {
   const [query, setQuery] = useState('');
@@ -40,7 +41,7 @@ export default function TeamSetupPage() {
     <div className="flex w-full flex-col gap-1">
       <label className="font-bold px-1">팀원 선택</label>
       <SearchBox
-        placeholder="팀원을 검색해주세요"
+        placeholder={PLACE_HOLDER.TEAM_MEMBER}
         value={query}
         items={filtered}
         onChange={e => setQuery(e.target.value)}
