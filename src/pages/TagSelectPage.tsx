@@ -5,11 +5,14 @@ import SearchBox from '@/components/SearchBox';
 import Chip from '@/components/Chip';
 import TagItem from '@/components/TagItem';
 import { useDebounce } from '@/hooks/useDebounce';
+import { useWizardStore } from '@/store/useWizardStore';
 
 export default function TagSelectPage() {
   const [query, setQuery] = useState('');
-  const [selectedIds, setSelectedIds] = useState<string[]>([]);
   const debouncedQuery = useDebounce(query, 300);
+  const { draft, updateDraft } = useWizardStore();
+
+  const selectedIds = draft.techStackIds;
 
   const filtered = debouncedQuery
     ? techTags
@@ -22,21 +25,23 @@ export default function TagSelectPage() {
     const tag = techTags.find((tag) => tag.name === name);
     if (!tag) return;
 
-    setSelectedIds((prev) => [...prev, tag.id]);
+    updateDraft({ techStackIds: [...selectedIds, tag.id] });
     setQuery('');
   };
 
   const handleToggle = (id: string) => {
-    setSelectedIds((prev) => (prev.includes(id) ? prev.filter((sid) => sid !== id) : [...prev, id]));
+    updateDraft({
+      techStackIds: selectedIds.includes(id)
+        ? selectedIds.filter((sid) => sid !== id)
+        : [...selectedIds, id],
+    });
   };
 
   const handleRemove = (id: string) => {
-    setSelectedIds((prev) => prev.filter((sid) => sid !== id));
+    updateDraft({ techStackIds: selectedIds.filter((sid) => sid !== id) });
   };
 
   const selectedTags = techTags.filter((tag) => selectedIds.includes(tag.id));
-
-  console.log(selectedIds);
 
   return (
     <div className="flex w-full flex-col gap-4">

@@ -8,7 +8,7 @@ export interface TagItemProps {
 
 const TagItem = ({ tag, onRemove }: TagItemProps) => {
   return (
-    <span key={tag.id} className="flex items-center gap-1 rounded-full bg-indigo-100 px-3 py-1 text-sm text-indigo-700">
+    <span key={tag.id} className="inline-flex items-center gap-1 rounded-full bg-indigo-100 px-3 py-1 text-sm text-indigo-700">
       {tag.name}
       <button
         type="button"

@@ -1,15 +1,18 @@
 import { useState } from 'react';
-import type { MemberRole, TeamMember } from '@/types';
+import type { MemberRole } from '@/types';
 import { users } from '@/data/users';
+import { PLACE_HOLDER } from '@/constants';
 import SearchBox from '@/components/SearchBox';
 import UserItem from '@/components/UserItem';
 import { useDebounce } from '@/hooks/useDebounce';
-import { PLACE_HOLDER } from '@/constants';
+import { useWizardStore } from '@/store/useWizardStore';
 
 export default function TeamSetupPage() {
   const [query, setQuery] = useState('');
-  const [members, setMembers] = useState<TeamMember[]>([]);
   const debouncedQuery = useDebounce(query, 300);
+  const { draft, updateDraft } = useWizardStore();
+
+  const members = draft.teamMembers;
 
   const filtered = debouncedQuery
     ? users
@@ -21,21 +24,19 @@ export default function TeamSetupPage() {
   const handleSelect = (name: string) => {
     const user = users.find(user => user.name === name);
     if (!user) return;
-    
-    // 처음 선택 시 역할을 member로 설정
-    setMembers(prev => [...prev, { userId: user.id, role: 'member' }]);
+    updateDraft({ teamMembers: [...members, { userId: user.id, role: 'member' }] });
     setQuery('');
   };
 
   const handleRoleChange = (userId: string, role: MemberRole) => {
-    setMembers(prev => prev.map(member => member.userId === userId ? { ...member, role } : member));
+    updateDraft({
+      teamMembers: members.map(m => m.userId === userId ? { ...m, role } : m),
+    });
   };
 
   const handleRemove = (userId: string) => {
-    setMembers(prev => prev.filter(member => member.userId !== userId));
+    updateDraft({ teamMembers: members.filter(m => m.userId !== userId) });
   };
-
-  console.log(members)
 
   return (
     <div className="flex w-full flex-col gap-1">
