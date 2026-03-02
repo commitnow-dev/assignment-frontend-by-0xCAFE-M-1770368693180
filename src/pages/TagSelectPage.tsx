@@ -31,9 +31,7 @@ export default function TagSelectPage() {
 
   const handleToggle = (id: string) => {
     updateDraft({
-      techStackIds: selectedIds.includes(id)
-        ? selectedIds.filter((sid) => sid !== id)
-        : [...selectedIds, id],
+      techStackIds: selectedIds.includes(id) ? selectedIds.filter((sid) => sid !== id) : [...selectedIds, id],
     });
   };
 
@@ -75,7 +73,7 @@ export default function TagSelectPage() {
           <span className="font-bold px-1 text-sm text-gray-500">선택된 태그 ({selectedTags.length})</span>
           <div className="flex flex-wrap gap-2">
             {selectedTags.map((tag) => (
-              <TagItem tag={tag} onRemove={() => handleRemove(tag.id)} />
+              <TagItem key={tag.id} tag={tag} onRemove={() => handleRemove(tag.id)} />
             ))}
           </div>
         </div>

@@ -19,4 +19,5 @@ export const PLACE_HOLDER = {
 
 export const NOTICE = {
   DATE: '시작일과 종료일을 선택해주세요.',
+  SUBMIT: '입력 내용을 확인해주세요.',
 };

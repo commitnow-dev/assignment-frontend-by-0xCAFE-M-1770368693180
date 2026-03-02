@@ -16,7 +16,7 @@ interface WizardStore {
 const initialDraft: ProjectDraft = {
   name: '',
   description: '',
-  isPublic: false,
+  isPublic: true,
   teamMembers: [],
   techStackIds: [],
   startDate: '',
@@ -31,9 +31,7 @@ export const useWizardStore = create<WizardStore>()(
       currentStep: 1,
 
       updateDraft: (partial) => set((state) => ({ draft: { ...state.draft, ...partial } })),
-
       setStep: (step) => set({ currentStep: step }),
-
       isStepValid: (step) => {
         const { draft } = get();
         switch (step) {
@@ -49,7 +47,6 @@ export const useWizardStore = create<WizardStore>()(
             return true;
         }
       },
-
       reset: () => set({ draft: initialDraft, currentStep: 1 }),
     }),
     {
