@@ -2,6 +2,7 @@ import { Outlet, useLocation, useNavigate } from 'react-router-dom';
 import type { WizardStep } from '@/types';
 import { TOTAL_STEPS } from '@/constants';
 import Button from '@/components/Button';
+import StepIndicator from '@/components/StepIndicator';
 import { useWizardStore } from '@/store/useWizardStore';
 
 export default function WizardLayout() {
@@ -29,7 +30,7 @@ export default function WizardLayout() {
   };
 
   const handleSubmit = () => {
-    console.log('submit', draft);
+    console.log(draft);
 
     reset();
     navigate('/');
@@ -38,7 +39,7 @@ export default function WizardLayout() {
   return (
     <div className="h-screen max-w-lg flex flex-col mx-auto">
       <div className="flex w-full justify-center py-10 bg-indigo-50">
-        <p>스텝 인디케이터</p>
+        <StepIndicator currentStep={currentStep} />
       </div>
 
       <div className="flex flex-col w-full flex-1 px-5 sm:px-12 pt-12 pb-10  overflow-hidden">
