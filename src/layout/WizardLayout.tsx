@@ -1,6 +1,6 @@
 import { Outlet, useLocation, useNavigate } from 'react-router-dom';
 import type { WizardStep } from '@/types';
-import { TOTAL_STEPS } from '@/constants';
+import { TOTAL_STEPS, PATH } from '@/constants';
 import Button from '@/components/Button';
 import StepIndicator from '@/components/StepIndicator';
 import { useWizardStore } from '@/store/useWizardStore';
@@ -17,7 +17,7 @@ export default function WizardLayout() {
 
     const prev = (currentStep - 1) as WizardStep;
     setStep(prev);
-    navigate(`/wizard/step-${prev}`);
+    navigate(PATH.STEP(prev));
   };
 
   const handleNext = () => {
@@ -26,14 +26,14 @@ export default function WizardLayout() {
 
     const next = (currentStep + 1) as WizardStep;
     setStep(next);
-    navigate(`/wizard/step-${next}`);
+    navigate(PATH.STEP(next));
   };
 
   const handleSubmit = () => {
     console.log(draft);
 
     reset();
-    navigate('/');
+    navigate(PATH.HOME);
   };
 
   return (

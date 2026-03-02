@@ -1,6 +1,6 @@
 import { useNavigate } from 'react-router-dom';
 import type { WizardStep } from '@/types';
-import { NOTICE } from '@/constants';
+import { NOTICE, PATH } from '@/constants';
 import { users, techTags } from '@/data';
 import Chip from '@/components/Chip';
 import ReviewGroup from '@/components/ReviewGroup';
@@ -12,7 +12,7 @@ export default function SubmitPage() {
 
   const goToStep = (step: number) => {
     setStep(step as WizardStep);
-    navigate(`/wizard/step-${step}`);
+    navigate(PATH.STEP(step));
   };
 
   const selectedTags = techTags.filter((t) => draft.techStackIds.includes(t.id));

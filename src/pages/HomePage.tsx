@@ -1,11 +1,12 @@
 import { useNavigate } from 'react-router-dom';
 import Button from '@/components/Button';
+import { PATH } from '@/constants';
 
 export default function HomePage() {
   const navigate = useNavigate();
 
   const handleStartButton = () => {
-    navigate('/wizard/step-1');
+    navigate(PATH.STEP(1));
   };
 
   return (
