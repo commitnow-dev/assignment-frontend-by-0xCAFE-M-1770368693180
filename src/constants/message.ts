@@ -1,9 +1,6 @@
 export const ERROR = {
   NAME: '프로젝트 이름은 3자 이상, 50자 이하여야 합니다.',
   DESCRIPTION: '프로젝트 설명은 500자 이하여야 합니다.',
-  TEAM_MEMBER: '프로젝트 팀원은 1명 이상이어야 합니다.',
-  DATE: '시작일과 종료일을 선택해주세요.',
-  MILESTONE: '마일스톤의 이름과 날짜를 선택해주세요.',
 };
 
 export const SUCCESS = {
