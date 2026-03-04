@@ -1,5 +1,6 @@
 import { Outlet, useNavigate } from 'react-router-dom';
-import { TOTAL_STEPS, PATH } from '@/constants';
+import { toast } from 'sonner';
+import { TOTAL_STEPS, PATH, SUCCESS } from '@/constants';
 import { Button, StepIndicator } from '@/components';
 import { useWizardNavigation } from '@/hooks/useWizardNavigation';
 import { useWizardStore } from '@/store/useWizardStore';
@@ -11,7 +12,8 @@ export default function WizardLayout() {
 
   const handleSubmit = () => {
     console.log(draft);
-
+    toast.success(SUCCESS.PROJECT);
+    
     reset();
     navigate(PATH.HOME);
   };
