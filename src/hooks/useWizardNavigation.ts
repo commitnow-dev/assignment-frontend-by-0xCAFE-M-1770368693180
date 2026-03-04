@@ -6,12 +6,11 @@ import { useWizardStore } from '@/store/useWizardStore';
 export function useWizardNavigation() {
   const location = useLocation();
   const navigate = useNavigate();
-  const { isStepValid, setStep } = useWizardStore();
+  const { isStepValid } = useWizardStore();
 
   const currentStep = Number(location.pathname.split('step-')[1]) as WizardStep;
 
   const goToStep = (step: number) => {
-    setStep(step as WizardStep);
     navigate(PATH.STEP(step));
   };
 

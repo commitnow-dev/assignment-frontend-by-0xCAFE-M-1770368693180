@@ -5,10 +5,8 @@ import { validateBasicInfo, validateTeamMember, validateTechStack, validateDate 
 
 interface WizardStore {
   draft: ProjectDraft;
-  currentStep: WizardStep;
 
   updateDraft: (partial: Partial<ProjectDraft>) => void;
-  setStep: (step: WizardStep) => void;
   isStepValid: (step: WizardStep) => boolean;
   reset: () => void;
 }
@@ -28,10 +26,8 @@ export const useWizardStore = create<WizardStore>()(
   persist(
     (set, get) => ({
       draft: initialDraft,
-      currentStep: 1,
 
       updateDraft: (partial) => set((state) => ({ draft: { ...state.draft, ...partial } })),
-      setStep: (step) => set({ currentStep: step }),
       isStepValid: (step) => {
         const { draft } = get();
         switch (step) {
@@ -47,7 +43,7 @@ export const useWizardStore = create<WizardStore>()(
             return true;
         }
       },
-      reset: () => set({ draft: initialDraft, currentStep: 1 }),
+      reset: () => set({ draft: initialDraft }),
     }),
     {
       name: 'wizard-draft',
