@@ -1,9 +1,10 @@
 import { Outlet, useNavigate } from 'react-router-dom';
 import { toast } from 'sonner';
-import { TOTAL_STEPS, PATH, SUCCESS } from '@/constants';
+import { TOTAL_STEPS, PATH, SUCCESS, LOADING } from '@/constants';
 import { Button, StepIndicator } from '@/components';
 import { useWizardNavigation } from '@/hooks/useWizardNavigation';
 import { useWizardStore } from '@/store/useWizardStore';
+import { createProject } from '@/api/project';
 
 export default function WizardLayout() {
   const navigate = useNavigate();
@@ -11,11 +12,15 @@ export default function WizardLayout() {
   const { currentStep, isStepValid, handlePrev, handleNext } = useWizardNavigation();
 
   const handleSubmit = () => {
-    console.log(draft);
-    toast.success(SUCCESS.PROJECT);
-    
-    reset();
-    navigate(PATH.HOME);
+    toast.promise(createProject(draft), {
+      loading: LOADING.PROJECT,
+      success: () => {
+        reset();
+        navigate(PATH.HOME);
+
+        return SUCCESS.PROJECT;
+      },
+    });
   };
 
   return (

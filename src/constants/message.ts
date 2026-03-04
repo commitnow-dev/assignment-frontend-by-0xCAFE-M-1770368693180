@@ -7,6 +7,10 @@ export const SUCCESS = {
   PROJECT: '프로젝트 생성 성공!',
 };
 
+export const LOADING = {
+  PROJECT: '프로젝트 생성 중...',
+};
+
 export const PLACE_HOLDER = {
   NAME: '프로젝트 이름을 입력해주세요.',
   DESCRIPTION: '프로젝트 설명을 입력해주세요.',
