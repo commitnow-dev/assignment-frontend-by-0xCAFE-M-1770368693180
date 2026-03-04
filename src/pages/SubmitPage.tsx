@@ -1,9 +1,8 @@
-import { NOTICE } from '@/constants';
 import { users, techTags } from '@/data';
-import Chip from '@/components/Chip';
-import ReviewGroup from '@/components/ReviewGroup';
-import { useWizardStore } from '@/store/useWizardStore';
+import { NOTICE } from '@/constants';
+import { Chip, ReviewGroup } from '@/components';
 import { useWizardNavigation } from '@/hooks/useWizardNavigation';
+import { useWizardStore } from '@/store/useWizardStore';
 
 export default function SubmitPage() {
   const { draft } = useWizardStore();

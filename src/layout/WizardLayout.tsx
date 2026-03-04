@@ -1,7 +1,6 @@
 import { Outlet, useNavigate } from 'react-router-dom';
 import { TOTAL_STEPS, PATH } from '@/constants';
-import Button from '@/components/Button';
-import StepIndicator from '@/components/StepIndicator';
+import { Button, StepIndicator } from '@/components';
 import { useWizardNavigation } from '@/hooks/useWizardNavigation';
 import { useWizardStore } from '@/store/useWizardStore';
 

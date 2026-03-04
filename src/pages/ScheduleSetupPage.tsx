@@ -1,7 +1,6 @@
 import type { Milestone } from '@/types';
 import { NOTICE } from '@/constants';
-import Input from '@/components/Input';
-import MilestoneItem from '@/components/MilestoneItem';
+import { Input, MilestoneItem } from '@/components';
 import { useWizardStore } from '@/store/useWizardStore';
 
 export default function ScheduleSetupPage() {

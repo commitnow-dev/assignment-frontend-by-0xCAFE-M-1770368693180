@@ -1,9 +1,7 @@
 import { useState } from 'react';
 import { techTags } from '@/data/techTags';
 import { PLACE_HOLDER, POPULAR_TECH_TAGS } from '@/constants';
-import SearchBox from '@/components/SearchBox';
-import Chip from '@/components/Chip';
-import TagItem from '@/components/TagItem';
+import { SearchBox, Chip, TagItem } from '@/components';
 import { useDebounce } from '@/hooks/useDebounce';
 import { useWizardStore } from '@/store/useWizardStore';
 

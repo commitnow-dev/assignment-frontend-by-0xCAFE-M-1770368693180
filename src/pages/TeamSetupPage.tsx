@@ -2,8 +2,7 @@ import { useState } from 'react';
 import type { MemberRole } from '@/types';
 import { users } from '@/data/users';
 import { PLACE_HOLDER } from '@/constants';
-import SearchBox from '@/components/SearchBox';
-import UserItem from '@/components/UserItem';
+import { SearchBox, UserItem } from '@/components';
 import { useDebounce } from '@/hooks/useDebounce';
 import { useWizardStore } from '@/store/useWizardStore';
 

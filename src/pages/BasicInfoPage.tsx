@@ -1,9 +1,7 @@
 import { useState } from 'react';
 import { PLACE_HOLDER } from '@/constants';
 import { validateName, validateDescription } from '@/utils/validate';
-import Input from '@/components/Input';
-import TextArea from '@/components/TextArea';
-import RadioOption from '@/components/RadioOption';
+import { Input, TextArea, RadioOption } from '@/components';
 import { useWizardStore } from '@/store/useWizardStore';
 
 export default function BasicInfoPage() {
