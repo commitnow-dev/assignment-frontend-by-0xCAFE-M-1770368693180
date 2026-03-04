@@ -1,33 +1,14 @@
-import { Outlet, useLocation, useNavigate } from 'react-router-dom';
-import type { WizardStep } from '@/types';
+import { Outlet, useNavigate } from 'react-router-dom';
 import { TOTAL_STEPS, PATH } from '@/constants';
 import Button from '@/components/Button';
 import StepIndicator from '@/components/StepIndicator';
+import { useWizardNavigation } from '@/hooks/useWizardNavigation';
 import { useWizardStore } from '@/store/useWizardStore';
 
 export default function WizardLayout() {
-  const location = useLocation();
   const navigate = useNavigate();
-  const { draft, isStepValid, setStep, reset } = useWizardStore();
-
-  const currentStep = Number(location.pathname.split('step-')[1]) as WizardStep;
-
-  const handlePrev = () => {
-    if (currentStep <= 1) return;
-
-    const prev = (currentStep - 1) as WizardStep;
-    setStep(prev);
-    navigate(PATH.STEP(prev));
-  };
-
-  const handleNext = () => {
-    if (!isStepValid(currentStep)) return;
-    if (currentStep >= TOTAL_STEPS) return;
-
-    const next = (currentStep + 1) as WizardStep;
-    setStep(next);
-    navigate(PATH.STEP(next));
-  };
+  const { draft, reset } = useWizardStore();
+  const { currentStep, isStepValid, handlePrev, handleNext } = useWizardNavigation();
 
   const handleSubmit = () => {
     console.log(draft);

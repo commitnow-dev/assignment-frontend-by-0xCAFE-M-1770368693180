@@ -1,19 +1,13 @@
-import { useNavigate } from 'react-router-dom';
-import type { WizardStep } from '@/types';
-import { NOTICE, PATH } from '@/constants';
+import { NOTICE } from '@/constants';
 import { users, techTags } from '@/data';
 import Chip from '@/components/Chip';
 import ReviewGroup from '@/components/ReviewGroup';
 import { useWizardStore } from '@/store/useWizardStore';
+import { useWizardNavigation } from '@/hooks/useWizardNavigation';
 
 export default function SubmitPage() {
-  const navigate = useNavigate();
-  const { draft, setStep } = useWizardStore();
-
-  const goToStep = (step: number) => {
-    setStep(step as WizardStep);
-    navigate(PATH.STEP(step));
-  };
+  const { draft } = useWizardStore();
+  const { goToStep } = useWizardNavigation();
 
   const selectedTags = techTags.filter((t) => draft.techStackIds.includes(t.id));
   const memberUsers = draft.teamMembers.map((m) => ({
