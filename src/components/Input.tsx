@@ -8,7 +8,7 @@ export interface InputProps extends ComponentPropsWithoutRef<'input'> {
 
 const Input = ({ label, errorMessage, ...props }: InputProps) => {
   return (
-    <div className="flex flex-col w-full gap-1">
+    <div className="flex flex-col w-full min-w-0 gap-1">
       {label && <label className="px-1 text-gray-700">{label}</label>}
       <div className="relative w-full">
         <input
