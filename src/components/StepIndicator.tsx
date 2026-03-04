@@ -1,22 +1,15 @@
 import { Fragment } from 'react';
-import { useNavigate } from 'react-router-dom';
 import clsx from 'clsx';
 import type { WizardStep } from '@/types';
-import { WIZARD_STEPS, PATH } from '@/constants';
-import { useWizardStore } from '@/store/useWizardStore';
+import { WIZARD_STEPS } from '@/constants';
+import { useWizardNavigation } from '@/hooks/useWizardNavigation';
 
 export interface StepIndicatorProps {
   currentStep: WizardStep;
 }
 
 const StepIndicator = ({ currentStep }: StepIndicatorProps) => {
-  const { isStepValid, setStep } = useWizardStore();
-  const navigate = useNavigate();
-
-  const goToStep = (step: WizardStep) => {
-    setStep(step);
-    navigate(PATH.STEP(step));
-  };
+  const { isStepValid, goToStep } = useWizardNavigation();
 
   return (
     <div className="flex w-full items-start px-6">
