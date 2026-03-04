@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import { Outlet, useNavigate } from 'react-router-dom';
 import { toast } from 'sonner';
 import { TOTAL_STEPS, PATH, SUCCESS, LOADING } from '@/constants';
@@ -8,18 +9,22 @@ import { createProject } from '@/api/project';
 
 export default function WizardLayout() {
   const navigate = useNavigate();
+  const [isSubmitting, setIsSubmitting] = useState(false);
   const { draft, reset } = useWizardStore();
   const { currentStep, isStepValid, handlePrev, handleNext } = useWizardNavigation();
 
   const handleSubmit = () => {
+    if (isSubmitting) return;
+    setIsSubmitting(true);
+
     toast.promise(createProject(draft), {
       loading: LOADING.PROJECT,
       success: () => {
         reset();
         navigate(PATH.HOME);
-
         return SUCCESS.PROJECT;
       },
+      finally: () => setIsSubmitting(false),
     });
   };
 
