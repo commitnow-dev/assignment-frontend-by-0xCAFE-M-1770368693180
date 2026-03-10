@@ -1,4 +1,5 @@
 import type React from 'react';
+import { useId } from 'react';
 
 export interface RadioOptionProps {
   name: string;
@@ -9,19 +10,22 @@ export interface RadioOptionProps {
 }
 
 const RadioOption = ({ name, value, checked, onChange, children }: RadioOptionProps) => {
+  const id = useId();
+  const inputId = `${id}-${value}`;
+
   return (
     <div className="relative flex w-full items-center justify-center bg-gray-50 px-4 py-3">
       <input
         type="radio"
+        id={inputId}
         name={name}
         value={value}
         checked={checked}
         onChange={() => onChange?.(value)}
         className="peer hidden"
-        id={value}
       />
       <label
-        htmlFor={value}
+        htmlFor={inputId}
         className="peer-checked:border-indigo-500 absolute top-0 h-full w-full cursor-pointer rounded-full border border-gray-300 transition"
       />
       <div className="peer-checked:border-transparent peer-checked:bg-indigo-500 peer-checked:ring-2 pointer-events-none absolute left-4 h-5 w-5 rounded-full border-2 border-gray-300 bg-gray-200 ring-indigo-600 ring-offset-2 transition" />

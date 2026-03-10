@@ -6,4 +6,10 @@ export const PROJECT = {
   DESCRIPTION: {
     MAX: 500,
   },
+  TEAM_MEMBER: {
+    MIN: 1,
+  },
+  TECH: {
+    MIN: 1,
+  },
 };

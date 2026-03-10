@@ -1,30 +1,49 @@
-import { useState } from 'react';
+import { useForm } from 'react-hook-form';
+import { zodResolver } from '@hookform/resolvers/zod';
 import { PLACE_HOLDER } from '@/constants';
-import { validateName, validateDescription } from '@/utils/validate';
 import { Input, TextArea, RadioOption } from '@/components';
 import { useWizardStore } from '@/store/useWizardStore';
+import { useWizardNavigation } from '@/hooks/useWizardNavigation';
+import { BasicInfoSchema, type BasicInfoValues } from '@/schemas/wizard';
 
 export default function BasicInfoPage() {
   const { draft, updateDraft } = useWizardStore();
-  const [nameTouched, setNameTouched] = useState(false);
+  const { handleNext } = useWizardNavigation();
 
-  const nameValidation = validateName(draft.name);
-  const descriptionValidation = validateDescription(draft.description);
+  const {
+    register,
+    handleSubmit,
+    watch,
+    setValue,
+    formState: { errors },
+  } = useForm<BasicInfoValues>({
+    resolver: zodResolver(BasicInfoSchema),
+    mode: 'onTouched',
+    defaultValues: {
+      name: draft.name,
+      description: draft.description,
+      isPublic: draft.isPublic,
+    },
+  });
 
-  const nameError = nameTouched && !nameValidation.isValid ? nameValidation.message : undefined;
-  const descriptionError = !descriptionValidation.isValid ? descriptionValidation.message : undefined;
+  const isPublic = watch('isPublic');
 
   return (
     <div className="flex w-full items-center justify-center">
-      <div className="flex flex-col w-full gap-10">
+      <form
+        id="wizard-step-form"
+        onSubmit={handleSubmit((values) => {
+          updateDraft(values);
+          handleNext();
+        })}
+        className="flex flex-col w-full gap-10"
+      >
         <div className="flex flex-col gap-1">
           <label className="font-bold px-1">프로젝트 이름</label>
           <Input
             placeholder={PLACE_HOLDER.NAME}
-            value={draft.name}
-            onChange={e => updateDraft({ name: e.target.value })}
-            onBlur={() => setNameTouched(true)}
-            errorMessage={nameError}
+            errorMessage={errors.name?.message}
+            {...register('name', { onChange: (e) => updateDraft({ name: e.target.value }) })}
           />
         </div>
 
@@ -32,9 +51,8 @@ export default function BasicInfoPage() {
           <label className="font-bold px-1">프로젝트 설명</label>
           <TextArea
             placeholder={PLACE_HOLDER.DESCRIPTION}
-            value={draft.description}
-            onChange={e => updateDraft({ description: e.target.value })}
-            errorMessage={descriptionError}
+            errorMessage={errors.description?.message}
+            {...register('description', { onChange: (e) => updateDraft({ description: e.target.value }) })}
           />
         </div>
 
@@ -44,22 +62,22 @@ export default function BasicInfoPage() {
             <RadioOption
               name="visibility"
               value="public"
-              checked={draft.isPublic}
-              onChange={() => updateDraft({ isPublic: true })}
+              checked={isPublic === true}
+              onChange={() => setValue('isPublic', true)}
             >
               공개
             </RadioOption>
             <RadioOption
               name="visibility"
               value="private"
-              checked={!draft.isPublic}
-              onChange={() => updateDraft({ isPublic: false })}
+              checked={isPublic === false}
+              onChange={() => setValue('isPublic', false)}
             >
               비공개
             </RadioOption>
           </div>
         </div>
-      </div>
+      </form>
     </div>
   );
 }

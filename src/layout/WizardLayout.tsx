@@ -3,19 +3,23 @@ import { Outlet } from 'react-router-dom';
 import { TOTAL_STEPS } from '@/constants';
 import { Button, StepIndicator } from '@/components';
 import { useWizardNavigation } from '@/hooks/useWizardNavigation';
-import { useWizardStore } from '@/store/useWizardStore';
 import { useSubmitWizard } from '@/hooks/useSubmitWizard';
+import { useWizardStore } from '@/store/useWizardStore';
 
 export default function WizardLayout() {
   const contentRef = useRef<HTMLDivElement>(null);
 
-  const { isStepValid } = useWizardStore();
-  const { currentStep, handlePrev, handleNext } = useWizardNavigation();
+  const { currentStep, handlePrev } = useWizardNavigation();
+  const { isStepValid, reset } = useWizardStore();
   const { handleSubmit } = useSubmitWizard();
 
   useEffect(() => {
     contentRef.current?.focus();
   }, [currentStep]);
+
+  useEffect(() => {
+    return () => { reset(); };
+  }, []);
 
   return (
     <div className="h-screen max-w-lg flex flex-col mx-auto">
@@ -47,7 +51,7 @@ export default function WizardLayout() {
               <Button size="lg" isActive={currentStep > 1} onClick={handlePrev}>
                 이전
               </Button>
-              <Button size="lg" isActive={isStepValid(currentStep)} onClick={handleNext}>
+              <Button type="submit" form="wizard-step-form" size="lg" isActive={isStepValid(currentStep)}>
                 다음
               </Button>
             </>

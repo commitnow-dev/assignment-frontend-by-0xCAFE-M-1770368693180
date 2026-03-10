@@ -7,8 +7,9 @@ import { LOADING, PATH, SUCCESS } from '@/constants';
 
 export function useSubmitWizard() {
   const navigate = useNavigate();
+  
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const { draft, reset } = useWizardStore();
+  const { draft } = useWizardStore();
 
   const handleSubmit = () => {
     if (isSubmitting) return;
@@ -17,7 +18,6 @@ export function useSubmitWizard() {
     toast.promise(createProject(draft), {
       loading: LOADING.PROJECT,
       success: () => {
-        reset();
         navigate(PATH.HOME);
         return SUCCESS.PROJECT;
       },

@@ -1,58 +1,98 @@
-import type { Milestone } from '@/types';
+import { useForm } from 'react-hook-form';
+import { zodResolver } from '@hookform/resolvers/zod';
 import { NOTICE } from '@/constants';
 import { Input, MilestoneItem } from '@/components';
 import { useWizardStore } from '@/store/useWizardStore';
+import { useWizardNavigation } from '@/hooks/useWizardNavigation';
+import { ScheduleSchema, type ScheduleValues } from '@/schemas/wizard';
 
 export default function ScheduleSetupPage() {
   const { draft, updateDraft } = useWizardStore();
-  const { startDate, endDate, milestones } = draft;
-  
+  const { handleNext } = useWizardNavigation();
+
+  const {
+    handleSubmit,
+    setValue,
+    watch,
+    formState: { errors },
+  } = useForm<ScheduleValues>({
+    resolver: zodResolver(ScheduleSchema),
+    defaultValues: {
+      startDate: draft.startDate,
+      endDate: draft.endDate,
+      milestones: draft.milestones,
+    },
+  });
+
+  const startDate = watch('startDate');
+  const endDate = watch('endDate');
+  const milestones = watch('milestones');
+
+  const setMilestones = (updated: ScheduleValues['milestones']) => {
+    setValue('milestones', updated, { shouldValidate: true });
+    updateDraft({ milestones: updated });
+  };
+
   const handleAddMilestone = () => {
-    updateDraft({ milestones: [...milestones, { id: crypto.randomUUID(), name: '', targetDate: '' }] });
+    const updated = [...milestones, { id: crypto.randomUUID(), name: '', targetDate: '' }];
+    setValue('milestones', updated);
+    updateDraft({ milestones: updated });
   };
 
-  const handleMilestoneChange = (id: string, field: keyof Omit<Milestone, 'id'>, value: string) => {
-    updateDraft({ milestones: milestones.map((m) => (m.id === id ? { ...m, [field]: value } : m)) });
+  const handleMilestoneChange = (index: number, key: 'name' | 'targetDate', value: string) => {
+    setMilestones(milestones.map((m, i) => (i === index ? { ...m, [key]: value } : m)));
   };
 
-  const handleRemoveMilestone = (id: string) => {
-    updateDraft({ milestones: milestones.filter((m) => m.id !== id) });
+  const handleRemoveMilestone = (index: number) => {
+    setMilestones(milestones.filter((_, i) => i !== index));
   };
 
   const resetOutOfRangeMilestones = (newStart: string, newEnd: string) => {
-    updateDraft({
-      milestones: milestones.map((m) =>
+    setMilestones(
+      milestones.map((m) =>
         m.targetDate && (m.targetDate < newStart || m.targetDate > newEnd) ? { ...m, targetDate: '' } : m,
       ),
-    });
+    );
   };
 
   return (
-    <div className="flex w-full flex-col gap-7">
+    <form
+      id="wizard-step-form"
+      onSubmit={handleSubmit((values) => {
+        updateDraft(values);
+        handleNext();
+      })}
+      className="flex w-full flex-col gap-7"
+    >
       <div className="flex flex-col gap-2">
-        <label className="font-bold px-1">프로젝트 기간</label>
-        <div className="flex gap-3">
-          <Input
-            label="시작일"
-            type="date"
-            value={startDate}
-            max={endDate || undefined}
-            onChange={(e) => {
-              updateDraft({ startDate: e.target.value });
-              resetOutOfRangeMilestones(e.target.value, endDate);
-            }}
-          />
-          <Input
-            label="종료일"
-            type="date"
-            value={endDate}
-            min={startDate || undefined}
-            onChange={(e) => {
-              updateDraft({ endDate: e.target.value });
-              resetOutOfRangeMilestones(startDate, e.target.value);
-            }}
-          />
+        <div className="flex flex-col gap-2">
+          <label className="font-bold px-1">프로젝트 기간</label>
+          <div className="flex gap-3">
+            <Input
+              label="시작일"
+              type="date"
+              value={startDate}
+              max={endDate || undefined}
+              onChange={(e) => {
+                setValue('startDate', e.target.value, { shouldValidate: true });
+                updateDraft({ startDate: e.target.value });
+                resetOutOfRangeMilestones(e.target.value, endDate);
+              }}
+            />
+            <Input
+              label="종료일"
+              type="date"
+              value={endDate}
+              min={startDate || undefined}
+              onChange={(e) => {
+                setValue('endDate', e.target.value, { shouldValidate: true });
+                updateDraft({ endDate: e.target.value });
+                resetOutOfRangeMilestones(startDate, e.target.value);
+              }}
+            />
+          </div>
         </div>
+        <p className="min-h-6 text-center text-red-500">{errors.endDate?.message}</p>
       </div>
 
       <div className="flex flex-col gap-2">
@@ -72,20 +112,24 @@ export default function ScheduleSetupPage() {
           <p className="px-1 text-sm text-gray-400">{NOTICE.DATE}</p>
         ) : (
           <ul className="flex flex-col gap-2">
-            {milestones.map((milestone) => (
+            {milestones.map((milestone, index) => (
               <li key={milestone.id}>
                 <MilestoneItem
                   milestone={milestone}
                   minDate={startDate}
                   maxDate={endDate}
-                  onChange={(field, value) => handleMilestoneChange(milestone.id, field, value)}
-                  onRemove={() => handleRemoveMilestone(milestone.id)}
+                  errorMessage={{
+                    name: errors.milestones?.[index]?.name?.message,
+                    targetDate: errors.milestones?.[index]?.targetDate?.message,
+                  }}
+                  onChange={(key, value) => handleMilestoneChange(index, key, value)}
+                  onRemove={() => handleRemoveMilestone(index)}
                 />
               </li>
             ))}
           </ul>
         )}
       </div>
-    </div>
+    </form>
   );
 }

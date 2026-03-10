@@ -1,7 +1,7 @@
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
 import type { ProjectDraft, WizardStep } from '@/types';
-import { validateBasicInfo, validateTeamMember, validateTechStack, validateDate } from '@/utils/validate';
+import { BasicInfoSchema, TeamMemberSchema, TechSchema, ScheduleSchema } from '@/schemas/wizard';
 
 interface WizardStore {
   draft: ProjectDraft;
@@ -32,13 +32,13 @@ export const useWizardStore = create<WizardStore>()(
         const { draft } = get();
         switch (step) {
           case 1:
-            return validateBasicInfo(draft);
+            return BasicInfoSchema.safeParse(draft).success;
           case 2:
-            return validateTeamMember(draft);
+            return TeamMemberSchema.safeParse(draft).success;
           case 3:
-            return validateTechStack(draft);
+            return TechSchema.safeParse(draft).success;
           case 4:
-            return validateDate(draft);
+            return ScheduleSchema.safeParse(draft).success;
           default:
             return true;
         }
@@ -47,6 +47,15 @@ export const useWizardStore = create<WizardStore>()(
     }),
     {
       name: 'wizard-draft',
+      version: 1,
+      partialize: (state) => ({ draft: state.draft }),
+      migrate: (persistedState, version) => {
+        const state = persistedState as { draft?: Partial<ProjectDraft> };
+        if (version === 0) {
+          return { ...state, draft: { ...state.draft, milestones: state.draft?.milestones ?? [] } };
+        }
+        return state;
+      },
     },
   ),
 );
