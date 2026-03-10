@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { techTags } from '@/data/techTags';
-import { PLACE_HOLDER, POPULAR_TECH_TAGS } from '@/constants';
+import { PLACE_HOLDER, POPULAR_TAG_IDS } from '@/constants';
 import { SearchBox, Chip, TagItem } from '@/components';
 import { useDebounce } from '@/hooks/useDebounce';
 import { useWizardStore } from '@/store/useWizardStore';
@@ -11,6 +11,7 @@ export default function TagSelectPage() {
   const { draft, updateDraft } = useWizardStore();
 
   const selectedIds = draft.techStackIds;
+  const popularTags = techTags.filter((t) => POPULAR_TAG_IDS.includes(t.id));
 
   const filtered = debouncedQuery
     ? techTags
@@ -51,7 +52,7 @@ export default function TagSelectPage() {
       <div className="flex flex-col gap-2">
         <span className="font-bold px-1 text-sm text-gray-500">인기 태그</span>
         <div className="flex flex-wrap gap-2">
-          {POPULAR_TECH_TAGS.map((tag) => {
+          {popularTags.map((tag) => {
             const isSelected = selectedIds.includes(tag.id);
             return (
               <Chip key={tag.id} type="button" isSelected={isSelected} onClick={() => handleToggle(tag.id)}>
