@@ -1,14 +1,14 @@
-import { useLocation, useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import type { WizardStep } from '@/types';
 import { TOTAL_STEPS, PATH } from '@/constants';
 import { useWizardStore } from '@/store/useWizardStore';
 
 export function useWizardNavigation() {
-  const location = useLocation();
+  const { step } = useParams<{ step: string }>();
   const navigate = useNavigate();
   const { isStepValid } = useWizardStore();
 
-  const currentStep = Number(location.pathname.split('step-')[1]) as WizardStep;
+  const currentStep = Number(step) as WizardStep;
 
   const goToStep = (step: number) => {
     navigate(PATH.STEP(step));
@@ -25,5 +25,5 @@ export function useWizardNavigation() {
     goToStep(currentStep + 1);
   };
 
-  return { currentStep, isStepValid, handlePrev, handleNext, goToStep };
+  return { currentStep, handlePrev, handleNext, goToStep };
 }

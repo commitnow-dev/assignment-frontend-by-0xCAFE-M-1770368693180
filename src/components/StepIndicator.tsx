@@ -3,13 +3,15 @@ import clsx from 'clsx';
 import type { WizardStep } from '@/types';
 import { WIZARD_STEPS } from '@/constants';
 import { useWizardNavigation } from '@/hooks/useWizardNavigation';
+import { useWizardStore } from '@/store/useWizardStore';
 
 export interface StepIndicatorProps {
   currentStep: WizardStep;
 }
 
 const StepIndicator = ({ currentStep }: StepIndicatorProps) => {
-  const { isStepValid, goToStep } = useWizardNavigation();
+  const { goToStep } = useWizardNavigation();
+  const { isStepValid } = useWizardStore();
 
   return (
     <div className="flex w-full items-start px-6">
