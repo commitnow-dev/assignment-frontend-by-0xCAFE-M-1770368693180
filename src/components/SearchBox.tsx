@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState, type ComponentPropsWithoutRef } from 'react';
+import { useId } from 'react';
 import { CiSearch } from 'react-icons/ci';
 
 export interface SearchBoxProps extends Omit<ComponentPropsWithoutRef<'input'>, 'onSelect'> {
@@ -7,6 +8,7 @@ export interface SearchBoxProps extends Omit<ComponentPropsWithoutRef<'input'>, 
 }
 
 const SearchBox = ({ items, onSelect, onFocus, onKeyDown, ...props }: SearchBoxProps) => {
+  const listBoxId = useId();
   const containerRef = useRef<HTMLDivElement>(null);
   const [isOpen, setIsOpen] = useState(false);
 
@@ -26,6 +28,10 @@ const SearchBox = ({ items, onSelect, onFocus, onKeyDown, ...props }: SearchBoxP
         <div className="flex w-full rounded-3xl border border-gray-300 gap-3 px-4 py-3 items-center">
           <CiSearch className="w-5 h-5 shrink-0 text-gray-500" />
           <input
+            role="combobox"
+            aria-expanded={isOpen}
+            aria-autocomplete="list"
+            aria-controls={isOpen ? listBoxId : undefined}
             className="w-full bg-transparent outline-none"
             onFocus={(e) => {
               setIsOpen(true);
@@ -40,13 +46,28 @@ const SearchBox = ({ items, onSelect, onFocus, onKeyDown, ...props }: SearchBoxP
         </div>
 
         {isOpen && items && items.length > 0 && (
-          <ul className="absolute z-10 mt-1 w-full rounded-2xl border border-gray-200 bg-white shadow-md overflow-hidden">
-            {items.map((item, i) => (
+          <ul
+            id={listBoxId}
+            role="listbox"
+            className="absolute z-10 mt-1 w-full rounded-2xl border border-gray-200 bg-white shadow-md overflow-hidden"
+          >
+            {items.map((item) => (
               <li
-                key={i}
+                key={item}
+                role="option"
+                tabIndex={0}
                 onClick={() => {
                   onSelect?.(item);
                   setIsOpen(false);
+                }}
+                onKeyDown={(e) => {
+                  if (e.key === 'Enter' || e.key === ' ') {
+                    e.preventDefault();
+                    onSelect?.(item);
+                    setIsOpen(false);
+                  } else if (e.key === 'Escape') {
+                    setIsOpen(false);
+                  }
                 }}
                 className="flex gap-3 items-center px-4 py-3 cursor-pointer text-gray-700 hover:bg-indigo-50"
               >
