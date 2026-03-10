@@ -1,6 +1,6 @@
 import { Navigate } from 'react-router-dom';
 import type { WizardStep } from '@/types';
-import { PATH } from '@/constants';
+import { PATH, WIZARD_STEPS } from '@/constants';
 import BasicInfoPage from '@/pages/BasicInfoPage';
 import TeamSetupPage from '@/pages/TeamSetupPage';
 import TagSelectPage from '@/pages/TagSelectPage';
@@ -22,7 +22,9 @@ export default function StepOutlet() {
 
   const { isStepValid } = useWizardStore();
   const isValidStep = (n: number): n is WizardStep => [1, 2, 3, 4, 5].includes(n);
-  const firstInvalidStep = ([1, 2, 3, 4] as WizardStep[]).slice(0, currentStep - 1).find((s) => !isStepValid(s));
+  const firstInvalidStep = WIZARD_STEPS.map(({ step }) => step)
+    .slice(0, currentStep - 1)
+    .find((step) => !isStepValid(step));
 
   if (!isValidStep(currentStep)) {
     return <Navigate to="/wizard/1" replace />;
