@@ -17,25 +17,30 @@ const StepIndicator = ({ currentStep }: StepIndicatorProps) => {
         const isCompleted = step < currentStep && isStepValid(step);
         const isCurrent = step === currentStep;
 
-        const handleClick = () => {
-          if (!isCompleted) return;
-          goToStep(step);
-        };
-
         return (
           <Fragment key={step}>
             <div className="flex flex-col items-center gap-1">
-              <div
-                onClick={handleClick}
-                className={clsx(
-                  'w-8 h-8 rounded-full flex items-center justify-center text-sm font-bold transition-all',
-                  isCompleted && 'bg-indigo-500 text-white cursor-pointer hover:bg-indigo-600',
-                  isCurrent && 'bg-indigo-500 text-white ring-4 ring-indigo-200',
-                  !isCompleted && !isCurrent && 'bg-gray-200 text-gray-400',
-                )}
-              >
-                {isCompleted ? '✓' : step}
-              </div>
+              {isCompleted ? (
+                <button
+                  type="button"
+                  onClick={() => goToStep(step)}
+                  aria-label={`${label} 단계로 이동`}
+                  className="w-8 h-8 rounded-full flex items-center justify-center text-sm font-bold transition-all bg-indigo-500 text-white cursor-pointer hover:bg-indigo-600"
+                >
+                  ✓
+                </button>
+              ) : (
+                <div
+                  aria-current={isCurrent ? 'step' : undefined}
+                  className={clsx(
+                    'w-8 h-8 rounded-full flex items-center justify-center text-sm font-bold transition-all',
+                    isCurrent ? 'bg-indigo-500 text-white ring-4 ring-indigo-200' : 'bg-gray-200 text-gray-400',
+                  )}
+                >
+                  {step}
+                </div>
+              )}
+
               <span
                 className={clsx(
                   'text-xs whitespace-nowrap',
