@@ -1,4 +1,4 @@
-import type { ComponentPropsWithoutRef } from 'react';
+import { useEffect, useRef, useState, type ComponentPropsWithoutRef } from 'react';
 import { CiSearch } from 'react-icons/ci';
 
 export interface SearchBoxProps extends Omit<ComponentPropsWithoutRef<'input'>, 'onSelect'> {
@@ -6,24 +6,57 @@ export interface SearchBoxProps extends Omit<ComponentPropsWithoutRef<'input'>, 
   onSelect?: (item: string) => void;
 }
 
-const SearchBox = ({ items, onSelect, ...props }: SearchBoxProps) => {
+const SearchBox = ({ items, onSelect, onFocus, onKeyDown, ...props }: SearchBoxProps) => {
+  const containerRef = useRef<HTMLDivElement>(null);
+  const [isOpen, setIsOpen] = useState(false);
+
+  useEffect(() => {
+    const handleOutsideClick = (e: MouseEvent) => {
+      if (containerRef.current && !containerRef.current.contains(e.target as Node)) {
+        setIsOpen(false);
+      }
+    };
+    document.addEventListener('mousedown', handleOutsideClick);
+    return () => document.removeEventListener('mousedown', handleOutsideClick);
+  }, []);
+
   return (
     <div className="relative w-full">
-      <div className="flex w-full rounded-3xl border border-gray-300 gap-3 px-4 py-3 items-center">
-        <CiSearch className="w-5 h-5 shrink-0 text-gray-500" />
-        <input className="w-full bg-transparent outline-none" {...props} />
-      </div>
+      <div ref={containerRef}>
+        <div className="flex w-full rounded-3xl border border-gray-300 gap-3 px-4 py-3 items-center">
+          <CiSearch className="w-5 h-5 shrink-0 text-gray-500" />
+          <input
+            className="w-full bg-transparent outline-none"
+            onFocus={(e) => {
+              setIsOpen(true);
+              onFocus?.(e);
+            }}
+            onKeyDown={(e) => {
+              if (e.key === 'Escape') setIsOpen(false);
+              onKeyDown?.(e);
+            }}
+            {...props}
+          />
+        </div>
 
-      {items && items.length > 0 && (
-        <ul className="absolute z-10 mt-1 w-full rounded-2xl border border-gray-200 bg-white shadow-md overflow-hidden">
-          {items.map((item, i) => (
-            <li key={i} onClick={() => onSelect?.(item)} className="flex gap-3 items-center px-4 py-3 cursor-pointer text-gray-700 hover:bg-indigo-50">
-              <CiSearch className="w-5 h-5 shrink-0 text-gray-500" />
-              {item}
-            </li>
-          ))}
-        </ul>
-      )}
+        {isOpen && items && items.length > 0 && (
+          <ul className="absolute z-10 mt-1 w-full rounded-2xl border border-gray-200 bg-white shadow-md overflow-hidden">
+            {items.map((item, i) => (
+              <li
+                key={i}
+                onClick={() => {
+                  onSelect?.(item);
+                  setIsOpen(false);
+                }}
+                className="flex gap-3 items-center px-4 py-3 cursor-pointer text-gray-700 hover:bg-indigo-50"
+              >
+                <CiSearch className="w-5 h-5 shrink-0 text-gray-500" />
+                {item}
+              </li>
+            ))}
+          </ul>
+        )}
+      </div>
     </div>
   );
 };
