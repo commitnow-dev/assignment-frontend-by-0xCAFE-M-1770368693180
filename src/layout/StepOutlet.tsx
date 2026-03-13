@@ -27,7 +27,7 @@ export default function StepOutlet() {
     .find((step) => !isStepValid(step));
 
   if (!isValidStep(currentStep)) {
-    return <Navigate to="/wizard/1" replace />;
+    return <Navigate to={PATH.STEP(1)} replace />;
   }
 
   if (firstInvalidStep !== undefined) {
