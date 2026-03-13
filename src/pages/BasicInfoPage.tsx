@@ -63,7 +63,10 @@ export default function BasicInfoPage() {
               name="visibility"
               value="public"
               checked={isPublic === true}
-              onChange={() => setValue('isPublic', true)}
+              onChange={() => {
+                setValue('isPublic', true);
+                updateDraft({ isPublic: true });
+              }}
             >
               공개
             </RadioOption>
@@ -71,7 +74,10 @@ export default function BasicInfoPage() {
               name="visibility"
               value="private"
               checked={isPublic === false}
-              onChange={() => setValue('isPublic', false)}
+              onChange={() => {
+                setValue('isPublic', false);
+                updateDraft({ isPublic: false });
+              }}
             >
               비공개
             </RadioOption>
