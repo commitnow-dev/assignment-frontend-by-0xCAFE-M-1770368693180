@@ -1,7 +1,8 @@
 import { WizardCardLayout } from "../components/WizardCardLayout";
-import { useTeamMembers } from "../hooks/useTeamMembers";
+import { useTeamMemberSelection } from "../hooks/useTeamMemberSelection";
 import { MemberSearch } from "../components/team/MemberSearch";
 import { MemberList } from "../components/team/MemberList";
+import { User, MemberRole } from "../types";
 
 export function Step2Team() {
   const {
@@ -9,10 +10,26 @@ export function Step2Team() {
     isSearching,
     selectedMembers,
     onSearch,
-    addMember,
-    updateRole,
-    removeMember,
-  } = useTeamMembers();
+    setSelectedMembers,
+    setSearchResult,
+  } = useTeamMemberSelection();
+
+  const addMember = (user: User) => {
+    if (!selectedMembers.find((m) => m.id === user.id)) {
+      setSelectedMembers((prev) => [...prev, { ...user, role: "member" }]);
+      setSearchResult([]);
+    }
+  };
+
+  const updateRole = (id: string, role: MemberRole) => {
+    setSelectedMembers((prev) =>
+      prev.map((m) => (m.id === id ? { ...m, role } : m))
+    );
+  };
+
+  const removeMember = (id: string) => {
+    setSelectedMembers((prev) => prev.filter((m) => m.id !== id));
+  };
 
   return (
     <WizardCardLayout>
