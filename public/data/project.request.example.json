@@ -1,0 +1,30 @@
+{
+  "name": "커밋나우 v2",
+  "description": "코드 리뷰 플랫폼 리뉴얼",
+  "isPublic": true,
+  "teamMembers": [
+    {
+      "userId": "u_001",
+      "role": "owner"
+    },
+    {
+      "userId": "u_002",
+      "role": "member"
+    }
+  ],
+  "techStackIds": ["react", "typescript", "nextjs"],
+  "startDate": "2025-02-01",
+  "endDate": "2025-04-30",
+  "milestones": [
+    {
+      "id": "m1",
+      "name": "MVP 완료",
+      "targetDate": "2025-03-15"
+    },
+    {
+      "id": "m2",
+      "name": "베타 출시",
+      "targetDate": "2025-04-15"
+    }
+  ]
+}
