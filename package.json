@@ -1,0 +1,58 @@
+{
+  "name": "assignment-frontend-by-0xcafe-m-1770368693180",
+  "version": "1.0.0",
+  "description": "> 안녕하세요. 커밋나우의 과제를 진행하려는 여러분을 모두 환영합니다! > 본 과제를 해결하고 더 성장한 자신을 마주하는 기회가 되길 바랍니다! 🙌",
+  "main": "index.js",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview",
+    "format": "prettier --write ."
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/commitnow-dev/assignment-frontend-by-0xCAFE-M-1770368693180.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "module",
+  "bugs": {
+    "url": "https://github.com/commitnow-dev/assignment-frontend-by-0xCAFE-M-1770368693180/issues"
+  },
+  "homepage": "https://github.com/commitnow-dev/assignment-frontend-by-0xCAFE-M-1770368693180#readme",
+  "dependencies": {
+    "@hookform/resolvers": "^5.2.2",
+    "@radix-ui/react-popover": "^1.1.15",
+    "@radix-ui/react-scroll-area": "^1.2.10",
+    "@radix-ui/react-select": "^2.2.6",
+    "@radix-ui/react-switch": "^1.2.6",
+    "@tanstack/react-query": "^5.95.2",
+    "axios": "^1.14.0",
+    "clsx": "^2.1.1",
+    "date-fns": "^4.1.0",
+    "lodash.debounce": "^4.0.8",
+    "lucide-react": "^1.7.0",
+    "radix-ui": "^1.4.3",
+    "react": "^19.2.4",
+    "react-dom": "^19.2.4",
+    "react-hook-form": "^7.72.0",
+    "react-router-dom": "^7.13.2",
+    "tailwind-merge": "^3.5.0",
+    "zod": "^4.3.6",
+    "zustand": "^5.0.12"
+  },
+  "devDependencies": {
+    "@tailwindcss/postcss": "^4.2.2",
+    "@types/react": "^19.2.14",
+    "@types/react-dom": "^19.2.3",
+    "@vitejs/plugin-react": "^6.0.1",
+    "autoprefixer": "^10.4.27",
+    "postcss": "^8.5.8",
+    "prettier": "^3.8.1",
+    "prettier-plugin-tailwindcss": "^0.7.2",
+    "tailwindcss": "^4.2.2",
+    "typescript": "^6.0.2",
+    "vite": "^8.0.3"
+  }
+}
